@@ -70,10 +70,16 @@ function ChatWindow({ currentUser, recipient }) {
             try {
               const isSent = msg.senderId._id === currentUser.id;
               
+              // For messages you sent: use recipient's public key
+              // For messages you received: use sender's public key
+              const otherPartyPublicKey = isSent 
+                ? msg.recipientId.publicKey
+                : msg.senderId.publicKey;
+              
               const plaintext = await decryptMessage(
                 msg.encryptedContent,
                 msg.nonce,
-                isSent ? recipient.publicKey : msg.senderPublicKey,
+                otherPartyPublicKey,
                 keys.privateKey
               );
 
