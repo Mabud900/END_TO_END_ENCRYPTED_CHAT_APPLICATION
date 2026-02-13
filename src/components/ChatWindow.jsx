@@ -105,6 +105,13 @@ function ChatWindow({ currentUser, recipient }) {
 
   const handleNewMessage = async (data) => {
     console.log('📩 New message received:', data);
+    console.log('🔍 Debug Info:');
+    console.log('  - Sender ID from socket:', data.senderId);
+    console.log('  - Expected recipient ID:', recipient._id);
+    console.log('  - Recipient public key:', recipient.publicKey);
+    console.log('  - Data sender public key:', data.senderPublicKey);
+    console.log('  - Keys match?', recipient.publicKey === data.senderPublicKey);
+    
     if (data.senderId === recipient._id) {
       try {
         const keysStr = localStorage.getItem('keys');
@@ -114,12 +121,16 @@ function ChatWindow({ currentUser, recipient }) {
         }
         
         const keys = JSON.parse(keysStr);
+        console.log('  - My private key (first 20 chars):', keys.privateKey.substring(0, 20) + '...');
+        
         const plaintext = await decryptMessage(
           data.encryptedContent, 
           data.nonce, 
-          data.senderPublicKey, 
+          data.senderPublicKey,
           keys.privateKey
         );
+        
+        console.log('✅ Message decrypted successfully');
         
         setMessages(prev => [...prev, { 
           _id: data.id, 
@@ -129,7 +140,11 @@ function ChatWindow({ currentUser, recipient }) {
         }]);
       } catch (error) {
         console.error('Failed to decrypt incoming message:', error);
+        console.error('  - Ciphertext length:', data.encryptedContent?.length);
+        console.error('  - Nonce length:', data.nonce?.length);
       }
+    } else {
+      console.log('❌ Message not for this chat - sender:', data.senderId, 'expected:', recipient._id);
     }
   };
 
