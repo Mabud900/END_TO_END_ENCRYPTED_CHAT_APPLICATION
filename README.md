@@ -162,16 +162,3 @@ The library `libsodium` was chosen because it provides audited, high-level authe
 *   **401 Unauthorized:** The JWT has likely expired. Log out and log in again.
 *   **Decryption failed:** This occurs if the private key in `localStorage` does not match the public key stored on the server (e.g., if the user logs in on a new device or clears storage without re-registering). Log out and log in to regenerate keys.
 *   **Socket.IO not connecting:** WebSockets might be blocked. Ensure the ngrok URL is current and the client is configured to try polling as a fallback.
-
-## Contributors
-
-*   MD MABUD
-*   MD REHAN
-*   KANISHK GUPTA
-*   KRISH MALIK
-
-Supervised by Prof. Meenakshi Rana, Chandigarh University.
-
-## License
-
-This project is licensed under the MIT License.
