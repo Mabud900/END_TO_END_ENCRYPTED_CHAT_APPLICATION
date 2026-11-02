@@ -3,7 +3,7 @@ import { messageAPI } from '../services/api';
 import { encryptMessage, decryptMessage } from '../services/crypto';
 import io from 'socket.io-client';
 
-const SOCKET_URL = 'https://susie-epiphloedal-nontoxically.ngrok-free.dev';
+const socket = io(import.meta.env.VITE_API_URL || 'http://localhost:5000');
 
 function ChatWindow({ currentUser, recipient }) {
   const [messages, setMessages] = useState([]);
