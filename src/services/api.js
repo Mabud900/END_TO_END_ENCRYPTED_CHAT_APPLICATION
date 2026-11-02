@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
-console.log('🔧 API URL:', API_URL);
+console.log(' API URL:', API_URL);
 
 const api = axios.create({
   baseURL: API_URL,
@@ -10,7 +10,7 @@ const api = axios.create({
   timeout: 10000
 });
 api.interceptors.request.use((config) => {
-  console.log('📤 REQUEST:', config.method.toUpperCase(), config.url);
+  console.log(' REQUEST:', config.method.toUpperCase(), config.url);
   const token = localStorage.getItem('token');
   if (token) {
     config.headers.Authorization = 'Bearer ' + token;
@@ -20,11 +20,11 @@ api.interceptors.request.use((config) => {
 
 api.interceptors.response.use(
   (response) => {
-    console.log('✅ RESPONSE:', response.status, response.data);
+    console.log(' RESPONSE:', response.status, response.data);
     return response;
   },
   (error) => {
-    console.error('❌ ERROR:', error.message);
+    console.error(' ERROR:', error.message);
     return Promise.reject(error);
   }
 );
@@ -43,3 +43,4 @@ export const messageAPI = {
 };
 
 export default api;
+export { API_URL };
