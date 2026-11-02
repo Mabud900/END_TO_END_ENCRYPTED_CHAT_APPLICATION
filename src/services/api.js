@@ -1,18 +1,14 @@
 import axios from 'axios';
 
-const API_URL = 'https://susie-epiphloedal-nontoxically.ngrok-free.dev';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 console.log('🔧 API URL:', API_URL);
 
 const api = axios.create({
   baseURL: API_URL,
-  headers: {
-    'Content-Type': 'application/json',
-    'ngrok-skip-browser-warning': 'true'
-  },
+  headers: { 'Content-Type': 'application/json' },
   timeout: 10000
 });
-
 api.interceptors.request.use((config) => {
   console.log('📤 REQUEST:', config.method.toUpperCase(), config.url);
   const token = localStorage.getItem('token');
